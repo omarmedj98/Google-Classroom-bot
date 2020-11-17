@@ -8,23 +8,23 @@ from selenium.webdriver.chrome.options import Options
 import speech_recognition as sr
 import pickle
 import os.path
-#from get_api import start_name,start_time,start_url,end_time
-import discord_bot
+from get_api import start_name,start_time,start_url,end_time
+
 
 
 keyboard = Controller()
 #firfox profile to get around google auth
 fp = webdriver.FirefoxProfile("C:\\Users\\ELITEBOOK G6\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\wh04balb.default-release")
 #define your profile you want use and the driver with firefox we use geckdriver and for chrome we use chromedriver
-#driver = webdriver.Firefox(executable_path="C:\\geckodriver.exe", firefox_profile=fp)
-#driver.maximize_window()
+driver = webdriver.Firefox(executable_path="C:\\geckodriver.exe", firefox_profile=fp)
+driver.maximize_window()
 
 def press_and_release(key):
     keyboard.press(key)
     keyboard.release(key)
 
 def open_discu():
-    #print(classe_name)
+        print(classe_name)
         elem = driver.switch_to.active_element
         classe_name = elem.get_attribute("class")
         if "uArJ5e UQuaGc kCyAyd" in classe_name:
@@ -40,10 +40,10 @@ def say_hello():
     press_and_release(Key.esc)
 def open_meet():
     #you put meeting url
-    #driver.get(start_url)
+    driver.get(start_url)
     driver.get("https://meet.google.com/aqf-vnhr-sak")
 
-    #print("shit he we go again you have ", start_name)
+    print("shit he we go again you have ", start_name)
     time.sleep(10)
     press_and_release(Key.tab)
     time.sleep(2)
@@ -78,18 +78,13 @@ def detect_name():
             discord_bot.tt()
             time.sleep(1)
             say_hello()
-            """"
+
             now = datetime.now()
             date_time = now.strftime("%Y-%m-%dT%H:%M:%S")
             if(date_time==end_time[0:19]):
                 break
             time.sleep(2)
     close_meet()
-    """
-
-
-
-
 
 def close_meet():
     press_and_release(Key.tab)
@@ -98,7 +93,7 @@ def close_meet():
     press_and_release(Key.tab)
     press_and_release(Key.enter)
     print('byby')
-"""
+
 def check_time():
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%dT%H:%M:%S")
@@ -109,10 +104,6 @@ def check_time():
       press_and_release(Key.tab)
       press_and_release(Key.tab)
       detect_name()
-"""
 
-#while True: check_time()
+while True: check_time()
 
-discord_bot.tt()
-print('done')
-discord_bot.tt()
