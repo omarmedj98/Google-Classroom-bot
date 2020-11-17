@@ -9,6 +9,7 @@ import speech_recognition as sr
 import pickle
 import os.path
 from get_api import start_name,start_time,start_url,end_time
+import smtplib
 
 
 
@@ -24,13 +25,14 @@ def press_and_release(key):
     keyboard.release(key)
 
 def open_discu():
-        print(classe_name)
         elem = driver.switch_to.active_element
         classe_name = elem.get_attribute("class")
         if "uArJ5e UQuaGc kCyAyd" in classe_name:
             press_and_release(Key.enter)
 
 def say_hello():
+    send_email()
+    time.sleep(2)
     open_discu()
     time.sleep(2)
     keyboard.type('Im here sir')
@@ -38,12 +40,23 @@ def say_hello():
     press_and_release(Key.enter)
     time.sleep(1)
     press_and_release(Key.esc)
+def send_email():
+    server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+
+    server.login("your email",
+                 'mdp of your email')
+
+    server.sendmail('from',
+                    'to',
+                    "message")
+
+    server.quit()
 def open_meet():
     #you put meeting url
     driver.get(start_url)
-    driver.get("https://meet.google.com/aqf-vnhr-sak")
+    #driver.get("https://meet.google.com/aqf-vnhr-sak")
 
-    print("shit he we go again you have ", start_name)
+   # print("shit he we go again you have ", start_name)
     time.sleep(10)
     press_and_release(Key.tab)
     time.sleep(2)
@@ -54,7 +67,7 @@ def open_meet():
         press_and_release('e')
 
     time.sleep(2)
-    for i in range(0,6):
+    for i in range(0,5):
         press_and_release(Key.tab)
     elem = driver.switch_to.active_element
     class_name = elem.get_attribute("class")
@@ -67,23 +80,27 @@ def detect_name():
         with sr.Microphone() as source:
             print("Say something!")
             audio = r.listen(source)
-            text = r.recognize_google(audio)
+
 
         try:
+            text = r.recognize_google(audio)
             print("Google Speech Recognition thinks you said " + text)
-        except:
-            print("problem")
-        #text need to equal your name so put instead of hello your name
-        if(text=="hello"):
-            discord_bot.tt()
-            time.sleep(1)
-            say_hello()
+            if (text == "hello"):
+                time.sleep(1)
+                say_hello()
 
             now = datetime.now()
             date_time = now.strftime("%Y-%m-%dT%H:%M:%S")
-            if(date_time==end_time[0:19]):
+            if (date_time == end_time[0:19]):
                 break
             time.sleep(2)
+
+        except:
+            print("problem")
+        #text need to equal your name so put instead of hello your name
+
+
+         
     close_meet()
 
 def close_meet():
@@ -106,4 +123,3 @@ def check_time():
       detect_name()
 
 while True: check_time()
-
