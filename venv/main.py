@@ -54,7 +54,7 @@ def send_email():
 def open_meet():
     #you put meeting url
     driver.get(start_url)
-    #driver.get("https://meet.google.com/aqf-vnhr-sak")
+    #driver.get("https://meet.google.com/********")
 
    # print("shit he we go again you have ", start_name)
     time.sleep(10)
